@@ -37,6 +37,21 @@ public class BlogController {
         return "newuser";
     }
 
+    @GetMapping("/edituser/{id}")
+    public String editUser(@PathVariable("id") Integer id,
+                           Model model) {
+        User user = service.findById(id);
+        model.addAttribute("user", user);
+        return "/edituser";
+    }
+
+    @PostMapping("/edituser/{id}")
+    public String updateUser(@ModelAttribute("user") User user) {
+        service.add(user);
+        log.info("id é " + user.getId());
+        return "redirect:/user/" + user.getId();
+    }
+
     @PostMapping("/user")
     public String newUser(@ModelAttribute("user") User user) {
         // TODO: Add the new user
